@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.InternalServerException;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.user.dto.CreateUserDto;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -20,31 +20,31 @@ public class UserServiceImpl implements UserService {
     private final UserStorage userStorage;
 
     @Override
-    public List<CreateUserDto> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userStorage.getAll().stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CreateUserDto getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         User user = userStorage.getUserById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + userId + " не найден."));
         return UserMapper.toUserDto(user);
     }
 
     @Override
-    public CreateUserDto addUser(CreateUserDto createUserDto) {
-        userStorage.getUserByEmail(createUserDto.getEmail()).ifPresent(u -> {
-            throw new InternalServerException("Email " + createUserDto.getEmail() + " уже используется другим пользователем.");
+    public UserDto addUser(UserDto userDto) {
+        userStorage.getUserByEmail(userDto.getEmail()).ifPresent(u -> {
+            throw new InternalServerException("Email " + userDto.getEmail() + " уже используется другим пользователем.");
         });
-        User user = UserMapper.toUser(createUserDto);
+        User user = UserMapper.toUser(userDto);
         User savedUser = userStorage.addUser(user);
         return UserMapper.toUserDto(savedUser);
     }
 
     @Override
-    public CreateUserDto updateUser(Long userId, UpdateUserDto newUserDto) {
+    public UserDto updateUser(Long userId, UpdateUserDto newUserDto) {
         User existingUser = userStorage.getUserById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + userId + " не найден для обновления."));
 

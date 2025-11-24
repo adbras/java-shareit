@@ -13,7 +13,9 @@ import jakarta.validation.constraints.Email;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
+public class UserDto {
+    private Long id;
+
     @NotBlank(message = "Имя пользователя не может быть пустым.")
     private String name;
 

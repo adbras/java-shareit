@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.dto.CreateUserDto;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.service.UserService;
 
@@ -22,18 +22,18 @@ public class UserController {
 
     @PostMapping
     @Validated
-    public CreateUserDto create(@Valid @RequestBody CreateUserDto createUserDto) {
-        return userService.addUser(createUserDto);
+    public UserDto create(@Valid @RequestBody UserDto userDto) {
+        return userService.addUser(userDto);
     }
 
     @PatchMapping("/{id}")
     @Validated
-    public CreateUserDto update(@PathVariable Long id, @Valid @RequestBody UpdateUserDto userDto) {
+    public UserDto update(@PathVariable Long id, @Valid @RequestBody UpdateUserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
     @GetMapping("/{id}")
-    public CreateUserDto getUserById(@PathVariable Long id) {
+    public UserDto getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<CreateUserDto> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 }
