@@ -4,7 +4,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.item.dto.CreateItemDto;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -23,17 +23,17 @@ public class ItemServiceImpl implements ItemService {
     private final UserStorage userStorage;
 
     @Override
-    public CreateItemDto addItem(Long ownerId, CreateItemDto createItemDto) {
+    public ItemDto addItem(Long ownerId, ItemDto itemDto) {
         User owner = userStorage.getUserById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + ownerId + " не найден."));
 
-        Item item = ItemMapper.toItem(createItemDto, owner);
+        Item item = ItemMapper.toItem(itemDto, owner);
         Item savedItem = itemStorage.addItem(item);
         return ItemMapper.toItemDto(savedItem);
     }
 
     @Override
-    public CreateItemDto updateItem(Long ownerId, Long itemId, UpdateItemDto newItemDto) {
+    public ItemDto updateItem(Long ownerId, Long itemId, UpdateItemDto newItemDto) {
         userStorage.getUserById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + ownerId + " не найден."));
 
@@ -60,14 +60,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public CreateItemDto getItemById(Long itemId) {
+    public ItemDto getItemById(Long itemId) {
         Item item = itemStorage.getItemById(itemId)
                 .orElseThrow(() -> new NotFoundException("Вещь с ID " + itemId + " не найдена."));
         return ItemMapper.toItemDto(item);
     }
 
     @Override
-    public List<CreateItemDto> getAllItemsByOwnerId(Long ownerId) {
+    public List<ItemDto> getAllItemsByOwnerId(Long ownerId) {
         userStorage.getUserById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + ownerId + " не найден."));
 
@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<CreateItemDto> getAvailableItemsByText(String text) {
+    public List<ItemDto> getAvailableItemsByText(String text) {
         if (text.isBlank()) {
             return List.of();
         }

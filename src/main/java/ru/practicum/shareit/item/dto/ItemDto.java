@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateItemDto {
-
-    Long id;
-
+public class ItemDto {
     @NotBlank(message = "Название товара не может быть пустым или содержать только пробелы")
     String name;
 
