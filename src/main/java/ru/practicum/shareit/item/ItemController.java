@@ -42,7 +42,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public Collection<ItemWithBookingDto > getAllItemsByUserId(@RequestHeader(USER_ID) Long userId) {
+    public Collection<ItemWithBookingDto> getAllItemsByUserId(@RequestHeader(USER_ID) Long userId) {
         return itemService.getAllItemsByOwnerId(userId);
     }
 
