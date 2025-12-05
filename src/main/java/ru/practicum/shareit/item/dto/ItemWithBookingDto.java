@@ -19,5 +19,4 @@ public class ItemWithBookingDto {
     private BookingDto lastBooking;
     private BookingDto nextBooking;
     private List<CommentDto> comments;
-
 }

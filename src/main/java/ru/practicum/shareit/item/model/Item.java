@@ -12,8 +12,6 @@ import ru.practicum.shareit.user.model.User;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "items")
 public class Item {

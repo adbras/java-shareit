@@ -30,7 +30,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto createBooking(BookingRequestDto bookingDto, Long userId) {
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + userId + " не найден."));
         Item item = itemRepository.findById(bookingDto.getItemId())
@@ -99,19 +98,19 @@ public class BookingServiceImpl implements BookingService {
                 bookings = bookingRepository.findByBookerIdOrderByStartDateDesc(userId);
                 break;
             case CURRENT:
-                bookings =  bookingRepository.findByBookerIdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(userId, now, now);
+                bookings = bookingRepository.findByBookerIdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(userId, now, now);
                 break;
             case PAST:
-                bookings =  bookingRepository.findByBookerIdAndEndDateBeforeOrderByStartDateDesc(userId, now);
+                bookings = bookingRepository.findByBookerIdAndEndDateBeforeOrderByStartDateDesc(userId, now);
                 break;
             case FUTURE:
-                bookings =  bookingRepository.findByBookerIdAndStartDateAfterOrderByStartDateDesc(userId, now);
+                bookings = bookingRepository.findByBookerIdAndStartDateAfterOrderByStartDateDesc(userId, now);
                 break;
             case WAITING:
-                bookings =  bookingRepository.findByBookerIdAndStatusOrderByStartDateDesc(userId, BookingStatus.WAITING);
+                bookings = bookingRepository.findByBookerIdAndStatusOrderByStartDateDesc(userId, BookingStatus.WAITING);
                 break;
             case REJECTED:
-                bookings =  bookingRepository.findByBookerIdAndStatusOrderByStartDateDesc(userId, BookingStatus.REJECTED);
+                bookings = bookingRepository.findByBookerIdAndStatusOrderByStartDateDesc(userId, BookingStatus.REJECTED);
                 break;
             default:
                 throw new NotFoundException("Неизвестное состояние бронирования: " + state);
@@ -133,19 +132,19 @@ public class BookingServiceImpl implements BookingService {
                 bookings = bookingRepository.findByItemOwnerIdOrderByStartDateDesc(ownerId);
                 break;
             case CURRENT:
-                bookings =  bookingRepository.findByItemOwnerIdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(ownerId, now, now);
+                bookings = bookingRepository.findByItemOwnerIdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(ownerId, now, now);
                 break;
             case PAST:
-                bookings =  bookingRepository.findByItemOwnerIdAndEndDateBeforeOrderByStartDateDesc(ownerId, now);
+                bookings = bookingRepository.findByItemOwnerIdAndEndDateBeforeOrderByStartDateDesc(ownerId, now);
                 break;
             case FUTURE:
-                bookings =  bookingRepository.findByItemOwnerIdAndStartDateAfterOrderByStartDateDesc(ownerId, now);
+                bookings = bookingRepository.findByItemOwnerIdAndStartDateAfterOrderByStartDateDesc(ownerId, now);
                 break;
             case WAITING:
-                bookings =  bookingRepository.findByItemOwnerIdAndStatusOrderByStartDateDesc(ownerId, BookingStatus.WAITING);
+                bookings = bookingRepository.findByItemOwnerIdAndStatusOrderByStartDateDesc(ownerId, BookingStatus.WAITING);
                 break;
             case REJECTED:
-                bookings =  bookingRepository.findByItemOwnerIdAndStatusOrderByStartDateDesc(ownerId, BookingStatus.REJECTED);
+                bookings = bookingRepository.findByItemOwnerIdAndStatusOrderByStartDateDesc(ownerId, BookingStatus.REJECTED);
                 break;
             default:
                 throw new NotFoundException("Неизвестное состояние бронирования: " + state);
