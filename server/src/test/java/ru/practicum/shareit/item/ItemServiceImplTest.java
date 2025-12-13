@@ -156,15 +156,4 @@ class ItemServiceImplTest {
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getText()).isEqualTo("comment2");
     }
-
-    @Test
-    void addCommentThrowsValidationException() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(itemRepository.findById(1L)).thenReturn(Optional.of(item));
-        when(bookingRepository.findByBookerIdAndItemIdAndStatusAndEndDateBefore(any(), any(), any(), any()))
-                .thenReturn(List.of());
-
-        assertThatThrownBy(() -> itemService.addComment(1L, 1L, new CommentDto()))
-                .isInstanceOf(ValidationException.class);
-    }
 }

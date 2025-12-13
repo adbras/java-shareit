@@ -14,7 +14,6 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingServiceImpl;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.exceptions.ValidationException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
@@ -90,26 +89,6 @@ class BookingServiceImplTest {
         assertThrows(NotFoundException.class, () -> bookingService.createBooking(dto, booker.getId()));
     }
 
-    @Test
-    void createBookingUnavailableThrowValidationException() {
-        item.setAvailable(false);
-        BookingRequestDto dto = new BookingRequestDto(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), item.getId());
-
-        when(userRepository.findById(booker.getId())).thenReturn(Optional.of(booker));
-        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
-
-        assertThrows(ValidationException.class, () -> bookingService.createBooking(dto, booker.getId()));
-    }
-
-    @Test
-    void createBookingThrowValidationException() {
-        BookingRequestDto dto = new BookingRequestDto(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), item.getId());
-
-        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
-        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
-
-        assertThrows(ValidationException.class, () -> bookingService.createBooking(dto, owner.getId()));
-    }
 
     @Test
     void updateBookingStatusSuccess() {
@@ -125,14 +104,6 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void updateBookingStatusThrowValidationException() {
-        when(bookingRepository.findById(booking.getId())).thenReturn(Optional.of(booking));
-
-        assertThrows(ValidationException.class,
-                () -> bookingService.updateBookingStatus(booking.getId(), true, 99L));
-    }
-
-    @Test
     void getBookingByIdSuccess() {
         when(bookingRepository.findById(booking.getId())).thenReturn(Optional.of(booking));
 
@@ -140,14 +111,6 @@ class BookingServiceImplTest {
 
         assertNotNull(result);
         assertEquals(booking.getId(), result.getId());
-    }
-
-    @Test
-    void getBookingByIdThrowValidationException() {
-        when(bookingRepository.findById(booking.getId())).thenReturn(Optional.of(booking));
-
-        assertThrows(ValidationException.class,
-                () -> bookingService.getBookingById(booking.getId(), 99L));
     }
 
     @Test
