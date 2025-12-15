@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
-@Validated
 public class BookingController {
     private final BookingService bookingService;
     private static final String USER_ID = "X-Sharer-User-Id";
